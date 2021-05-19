@@ -1,0 +1,65 @@
+
+
+ <div class="container">
+
+     <div class="row">
+
+
+      <div class="side col-md-3">
+    <h1>User info</h1>
+
+      <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %>
+
+
+    <table class="table">
+      <tr>
+       <th><p>name</p></th>
+         <th><%= @user.name  %></th>
+       </tr>
+       <tr>
+         <th><p>introduction</p></th>
+         <th><%= @user.introduction  %>  </th>
+      </tr>
+      </table>
+
+      <% if @user.id == current_user.id %>
+        <%= link_to ( edit_user_path(@user)) do %><i class="fas fa-user-cog"></i><%  end %>
+      <% end %>
+
+    <h1>New book</h1>
+
+
+     <%= form_with model:@book, local:true do |f| %>
+       <p>Title</p>
+      <%= f.text_field :title %>
+
+       <p>Opinion</p>
+      <%= f.text_area :body %>
+      <%= f.submit 'Create Book', class:"btn btn-success"  %>
+     <%  end %>
+
+  </div>
+
+
+
+
+<div class="main col-md-8 offset-md-1">
+<h1>Users</h1>
+<table class="table">
+  <tr>
+    <th>image</th>
+    <th>name</th>
+    <th></th>
+  </tr>
+
+<%  @users.each do |user| %>
+<tr>
+  <th><%= attachment_image_tag @user, :profile_image, :fill, 60, 60, format: 'jpeg', fallback: "no_image.jpg" %></th>
+  <th>  <%=  user.name %></th>
+  <th><%= link_to "Show", user_path(user) %></th>
+</tr>
+<%  end %>
+   </table>
+ </div>
+</div>
+</div>

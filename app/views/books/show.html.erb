@@ -1,0 +1,49 @@
+<%  if @book.errors.any? %>
+<%=  @book.errors.count %>件のエラーが発生しました
+<%  @book.errors.full_messages.each do |message| %>
+<%=  message %>
+<% end %>
+<%  end %>
+
+
+<div class="container">
+ <div class="row">
+    <div class="side col-md-3">
+      <h1>User info</h1>
+        <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %>
+        <%= link_to ( edit_user_path(@user)) do %><i class="fas fa-user-cog"></i><%  end %>
+        <%=  @user.name %>
+        <%= @user.introduction  %>
+
+      <h1>New book</h1>
+        <%= form_with model:@book, local:true do |f| %>
+        <p>Title</p>
+        <%= f.text_field :title %>
+        <p>Opinion</p>
+        <%= f.text_area :body %>
+        <%= f.submit 'Create Book', class:"btn btn-success" %>
+        <% end %>
+    </div>
+
+    <div class="side col-md-8 offset-md-1">
+      <h1>Book detail</h1>
+       <%  if flash[:notice] %>
+       <p id="notice">
+        <%=  flash[:notice] %>
+       </p>
+       <% end %>
+       <table class="table">
+        <tr>
+           <th><%= link_to user_path(@user) do %><%= attachment_image_tag @user, :profile_image, :fill, 60, 60, format: 'jpeg', fallback: "no_image.jpg" %><% end %><%= link_to user_path(@user) do %><%= @user.name %><% end %></th>
+          <th><%= @books.title %></th>
+          <th><%= @books.body %></th>
+
+         <% if @user.id == current_user.id %>
+          <th><%= link_to "Edit", edit_book_path(@books), class: 'btn btn-success' %></th>
+          <th><%= link_to "Destroy", book_path(@books), class: 'btn btn-danger', method: :delete, "data-confirm"=>"本当に削除しますか？" %></th>
+          <%  end %>
+        </tr>
+       </table>
+    </div>
+  </div>
+  </div>
